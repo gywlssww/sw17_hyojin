@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int change(string s, string t) {
+	int count = 0;
+	int B = 0, C = 0, D = 0, E = 0;
+	for (int i = 0; i < s.size(); i++) {
+		int flag = int(s[i]) ^ int(t[i]);
+	
+		switch (flag) {
+
+		case 1:
+			if (int(s[i]) - int(t[i]) == 1) //case:C
+				C++;
+			else //case:B
+				B++;
+			break;
+		case 15://?0 case:D
+			    D++;
+			break;
+		case 14://?1 case:E
+			    E++;
+			break;
+		}
+	}
+	
+	while (C >0) {
+		if (C >= B) {
+			count += B;
+			C -= B;
+			B = 0;
+			if (C - E > 0)
+				return -1;
+			else {
+				E -= C;
+				count += (2 * C);
+				C = 0;
+			}
+		}
+		else {
+			count += C;
+			B -= C;
+			C = 0;
+			break;
+		}
+	}
+	return count + B + D + E;
+}
+
+int main() {
+
+	int input;
+	int* ans;
+	cin >> input;
+	ans = new int[input];
+	string s, t;
+	for (int i=0; i < input; i++) {
+		
+		cin >> s>>t;
+		ans[i] = change(s, t);
+		
+	}
+	for (int i = 0; i < input; i++) {
+
+		cout << "Case "<<i+1<<": "<<ans[i] << endl;
+	}
+
+}
