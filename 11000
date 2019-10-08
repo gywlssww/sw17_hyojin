@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <functional>  //greater 가 템플릿 아니라고 해성 ㅜㅜ
+#include <queue>
+#include <utility>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+
+	int class_num; //반 수
+	
+	vector<pair<int, int>> input; //input 저장할 벡터
+	priority_queue< int, vector<int>, greater<int> > end_time; //끝나는 시간만 저장
+	
+	cin >> class_num;
+	input.resize(class_num); //이거 안하면 런타임 에러 뜸...
+	//입력 받아요
+	for (int i = 0; i < class_num; i++) 
+		cin >> input[i].first >> input[i].second;
+	
+	//시작 시간 기준정렬
+	sort(input.begin(), input.end());
+
+		//일단 처음꺼 입력
+	end_time.push(input[0].second);
+	for (int i = 1; i < input.size(); i++) {
+		if (input[i].first >= end_time.top()) {//이후 배정 가능
+			end_time.pop();
+			end_time.push(input[i].second); //마지막 시간 갱신
+		}
+		else { //시간표 중복->다른 강의실
+			end_time.push(input[i].second);
+		}
+		//우선순위큐쫘라락정렬
+	}
+
+	cout << end_time.size();
+
+	return 0;
+
+}
